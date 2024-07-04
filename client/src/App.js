@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css'; // Assuming you have a separate CSS file for React component styles
 
 const App = () => {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [messageSender, setMessageSender] = useState('Westpac Pal');
+  const [messageSender, setMessageSender] = useState("user");
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   useEffect(() => {
     // Load messages from localStorage on component mount
@@ -16,27 +18,36 @@ const App = () => {
     setMessageSender(name);
   };
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
-
-    const timestamp = new Date().toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true
-    });
+    console.log("test")
+    setSubmitDisabled(true);
 
     const message = {
-      sender: messageSender,
-      text: inputText,
-      timestamp
+      role: messageSender,
+      content: inputText,
     };
 
     // Update state with new message
     const updatedMessages = [...messages, message];
     setMessages(updatedMessages);
 
+    try {
+      const response = await axios.post("http://envy.ddns.net:5000/chat", {
+        messages: updatedMessages
+      });
+      console.log(response.data)
+      setMessages(response.data)
+      localStorage.setItem('messages', JSON.stringify(updatedMessages));
+    }
+    catch {
+
+    }
+    finally {
+      setSubmitDisabled(false);
+    }
+
     // Save messages to localStorage
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
 
     // Clear input field
     setInputText('');
@@ -50,41 +61,24 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="person-selector">
-        <button
-          className={`button person-selector-button ${messageSender === 'Westpac Pal' ? 'active-person' : ''}`}
-          id="westpacpal-selector"
-          onClick={() => updateMessageSender('Westpac Pal')}
-        >
-          Westpac Pal
-        </button>
-        <button
-          className={`button person-selector-button ${messageSender === 'Jane' ? 'active-person' : ''}`}
-          id="jane-selector"
-          onClick={() => updateMessageSender('Jane')}
-        >
-          Jane
-        </button>
-      </div>
       <div className="chat-box">
         <div className="chat-header-container">
-          <h2 className="chat-header">{messageSender} chatting...</h2>
+          <h2 className="chat-header">Westpac Pal</h2>
         </div>
         <div className="chat-container">
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`message ${message.sender === 'Westpac Pal' ? 'blue-bg sent-message' : 'gray-bg received-message'}`}
+                className={`message ${message.role === 'user' ? 'gray-bg received-message' : 'blue-bg sent-message'}`}
               >
-                <div className="message-sender">{message.sender}</div>
-                <div className="message-text">{message.text}</div>
-                <div className="message-timestamp">{message.timestamp}</div>
+                <div className="message-sender">{message.role === 'user' ? 'Jane' : 'Westpac Pal'}</div>
+                <div className="message-text">{message.content}</div>
               </div>
             ))}
           </div>
 
-          <form className="chat-input-form" onSubmit={sendMessage}>
+          <form className="chat-input-form" disabled={submitDisabled} onSubmit={sendMessage}>
             <input
               type="text"
               className="chat-input"
