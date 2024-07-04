@@ -66,38 +66,41 @@ const App = () => {
           Jane
         </button>
       </div>
-      <div className="chat-container">
-        <h2 className="chat-header">{messageSender} chatting...</h2>
-
-        <div className="chat-messages">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`message ${message.sender === 'Westpac Pal' ? 'blue-bg' : 'gray-bg'}`}
-            >
-              <div className="message-sender">{message.sender}</div>
-              <div className="message-text">{message.text}</div>
-              <div className="message-timestamp">{message.timestamp}</div>
-            </div>
-          ))}
+      <div className="chat-box">
+        <div className="chat-header-container">
+          <h2 className="chat-header">{messageSender} chatting...</h2>
         </div>
+        <div className="chat-container">
+          <div className="chat-messages">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`message ${message.sender === 'Westpac Pal' ? 'blue-bg sent-message' : 'gray-bg received-message'}`}
+              >
+                <div className="message-sender">{message.sender}</div>
+                <div className="message-text">{message.text}</div>
+                <div className="message-timestamp">{message.timestamp}</div>
+              </div>
+            ))}
+          </div>
 
-        <form className="chat-input-form" onSubmit={sendMessage}>
-          <input
-            type="text"
-            className="chat-input"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder={`Type here, ${messageSender}...`}
-            required
-          />
-          <button type="submit" className="button send-button">
-            Send
+          <form className="chat-input-form" onSubmit={sendMessage}>
+            <input
+              type="text"
+              className="chat-input"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder={`Type here, ${messageSender}...`}
+              required
+            />
+            <button type="submit" className="button send-button">
+              Send
+            </button>
+          </form>
+          <button className="button clear-chat-button" onClick={clearChat}>
+            Clear Chat
           </button>
-        </form>
-        <button className="button clear-chat-button" onClick={clearChat}>
-          Clear Chat
-        </button>
+        </div>
       </div>
     </div>
   );
