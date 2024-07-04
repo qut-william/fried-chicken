@@ -1,11 +1,33 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan")
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+require("dotenv").config();
+
+const app = express();
+const port = process.env.PORT;
+
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: false }));
+
+const searchRouter= require("./app/routes/search.js");
+const chatsRouter = require("./app/routes/chat.js");
+const errorHandler = require("./app/middleware/errorHandler.js");
+
+
+app.use("/search", searchRouter);
+app.use("/chats", chatsRouter);
+
+app.use(async function (req, res) {
+  return res.status(404).json({
+    status: "error",
+    message: "Page not found!",
+  });
+});
+
+app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
