@@ -42,12 +42,13 @@ body {
 .active-person {
   background: #1F1C4F;
   box-shadow: 0 0 0.5em 0.1em #c3c3c333;
+  align-self: flex-end;
 }
 
 .chat-box {
   background: #fff;
   border-radius: 10px;
-  padding: 20px;
+  padding: 30px;
   box-shadow: 0 0 1.25em 0.5em #00000033;
   width: 90vw; /* Adjust to fit mobile screen */
   max-width: 400px; /* Adjust maximum width for larger screens */
@@ -81,7 +82,9 @@ body {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 1em;
-  padding-bottom: 10px; /* Ensure messages are not hidden by padding */
+  padding-bottom: 20px; /* Ensure messages are not hidden by padding */
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -96,20 +99,22 @@ body {
 .message {
   padding: 10px;
   border-radius: 10px;
-  margin-bottom: 10px;
   max-width: 80%;
   word-wrap: break-word;
 }
 
 .sent-message {
-  margin-bottom: 5px;
-  align-self: flex-start;
+  align-self: flex-start; /* Align to the left */
+  background-color: #da1710; /* Background color for Westpac Pal's messages */
+  color: #dedee1; /* Text color for Westpac Pal's messages */
+  margin-bottom: 20px; /* Adjust spacing between messages */
 }
 
 .received-message {
   color: #181B25;
-  margin-bottom: 5px;
   align-self: flex-end;
+  background-color: #f3f4f6; /* Background color for Jane's messages */
+  margin-bottom: 20px; /* Adjust spacing between messages */
 }
 
 .message-sender {
