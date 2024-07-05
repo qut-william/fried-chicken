@@ -34,15 +34,15 @@ const App = () => {
     setMessages(updatedMessages);
 
     try {
-      const response = await axios.post("http://localhost:5000/chat", {
-        // const response = await axios.post("http://envy.ddns.net:5000/chat", {
+      // const response = await axios.post("http://localhost:5000/chat", {
+      const response = await axios.post("http://envy.ddns.net:5000/chat", {
         transactions,
         messages: updatedMessages
       });
 
       console.log(response.data)
       setMessages(response.data)
-      
+
       localStorage.setItem('messages', JSON.stringify(updatedMessages));
     }
     catch {
