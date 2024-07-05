@@ -14,7 +14,7 @@ const transactions = [
         datetime: new Date('2024-06-29T15:45:00'),
         category: 'Shopping',
         description: 'Amazon',
-        amount: 50.00,
+        amount: 53.00,
     },
     {
         datetime: new Date('2024-06-28T14:15:00'),
@@ -42,8 +42,8 @@ const transactions = [
     {
         datetime: new Date('2024-06-24T13:30:00'),
         category: 'Shopping',
-        description: 'Walmart',
-        amount: 35.50,
+        description: 'Cotton On',
+        amount: 119.00,
     },
     {
         datetime: new Date('2024-06-23T17:15:00'),
