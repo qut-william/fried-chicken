@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import transactions from './data/transactions';
 import './App.css'; // Assuming you have a separate CSS file for React component styles
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
 
     try {
       const response = await axios.post("http://envy.ddns.net:5000/chat", {
+        transactions,
         messages: updatedMessages
       });
       console.log(response.data)

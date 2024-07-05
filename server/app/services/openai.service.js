@@ -2,11 +2,11 @@ const axios = require("axios");
 // const openai = require('openai');
 // openai.api_key = process.env.OPENAI_API_KEY;
 
-exports.chat = async (messages) => {
+exports.chat = async (transactions, messages) => {
     const apiUrl = "https://api.openai.com/v1/chat/completions";
     const apiKey = process.env.OPENAI_API_KEY;
 
-    const systemPrompt = "You are a helpful assistant in a banking app. Do not provide an answer over 100 words."
+    const systemPrompt = "You are a helpful assistant in a banking app. Do not provide an answer over 100 words. Only answer banking related questions. Here is the users transaction data\n" + JSON.stringify(transactions)
     const promptMessages = [{ role: "system", content: systemPrompt }, ...messages]
 
     const headers = {
