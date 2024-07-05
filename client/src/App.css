@@ -169,3 +169,10 @@ body {
   display: block;
   margin: 1em auto;
 }
+
+.message-link {
+  font-size: 1em;
+  margin-bottom: 5px;
+  cursor: pointer; /* Change cursor to pointer on hover */
+  margin-top: 18px; /* Example margin for spacing */
+}

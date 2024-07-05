@@ -6,7 +6,19 @@ exports.chat = async (transactions, messages) => {
     const apiUrl = "https://api.openai.com/v1/chat/completions";
     const apiKey = process.env.OPENAI_API_KEY;
 
-    const systemPrompt = "You are a helpful assistant in a banking app. Do not provide an answer over 100 words. Only answer banking related questions. Here is the users transaction data\n" + JSON.stringify(transactions)
+    const systemPrompt = `
+    You are a helpful assistant in a banking app for Australians. 
+
+    Guidelines:
+    1. Only answer banking-related questions.
+    2. Do not exceed 100 words in your response.
+    3. If prompted about spending or when you provide a dollar amount, add this note at the start of your message:
+    
+    "&AR&"
+
+    Here is the user's transaction data:
+    ${JSON.stringify(transactions)}
+    `;
     const promptMessages = [{ role: "system", content: systemPrompt }, ...messages]
 
     const headers = {
@@ -22,6 +34,11 @@ exports.chat = async (transactions, messages) => {
     try {
         const response = await axios.post(apiUrl, body, { headers });
         const content = response.data.choices[0].message.content
+        console.log(content)
+        if (content.startsWith("&AR&")) {
+            const slicedContent = content.slice(4);
+            return [...messages, { AR: true, role: "system", content: slicedContent }];
+        }
         return [...messages, { role: "system", content }];
     } catch (err) {
         console.log(err)

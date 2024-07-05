@@ -34,12 +34,15 @@ const App = () => {
     setMessages(updatedMessages);
 
     try {
-      const response = await axios.post("http://envy.ddns.net:5000/chat", {
+      const response = await axios.post("http://localhost:5000/chat", {
+        // const response = await axios.post("http://envy.ddns.net:5000/chat", {
         transactions,
         messages: updatedMessages
       });
+
       console.log(response.data)
       setMessages(response.data)
+      
       localStorage.setItem('messages', JSON.stringify(updatedMessages));
     }
     catch {
@@ -76,6 +79,7 @@ const App = () => {
               >
                 <div className="message-sender">{message.role === 'user' ? 'Jane' : 'Westpac Pal'}</div>
                 <div className="message-text">{message.content}</div>
+                {message.AR ? <div className='message-link'>Check your spending with AR →</div> : ''}
               </div>
             ))}
           </div>
